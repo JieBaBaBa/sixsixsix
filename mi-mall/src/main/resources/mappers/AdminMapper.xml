@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.time.demo.mapper.AdminMapper">
+	<resultMap id="BaseResultMap"
+		type="com.time.demo.entity.Admin">
+		<id column="AdminId" jdbcType="INTEGER" property="adminid" />
+		<result column="Name" jdbcType="VARCHAR" property="name" />
+		<result column="Password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="Avatar" jdbcType="VARCHAR" property="avatar" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		AdminId, Name, Password, Avatar
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mi_admin
+		where AdminId = #{adminid,jdbcType=INTEGER}
+	</select>
+	<select id="selectByName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mi_admin
+		where Name = #{name,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from mi_admin
+		where AdminId =
+		#{adminid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.time.demo.entity.Admin">
+		insert into mi_admin (AdminId,
+		Name, Password,
+		Avatar)
+		values (#{adminid,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{avatar,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.time.demo.entity.Admin">
+		insert into mi_admin
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="adminid != null">
+				AdminId,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="password != null">
+				Password,
+			</if>
+			<if test="avatar != null">
+				Avatar,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="adminid != null">
+				#{adminid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="avatar != null">
+				#{avatar,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.time.demo.entity.Admin">
+		update mi_admin
+		<set>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				Password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="avatar != null">
+				Avatar = #{avatar,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where AdminId = #{adminid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.time.demo.entity.Admin">
+		update mi_admin
+		set Name = #{name,jdbcType=VARCHAR},
+		Password = #{password,jdbcType=VARCHAR},
+		Avatar =
+		#{avatar,jdbcType=VARCHAR}
+		where AdminId = #{adminid,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.time.demo.mapper.UserMapper">
+	<resultMap id="BaseResultMap"
+		type="com.time.demo.entity.User">
+		<id column="userID" jdbcType="INTEGER" property="userid" />
+		<result column="nickName" jdbcType="VARCHAR"
+			property="nickname" />
+		<result column="userName" jdbcType="VARCHAR"
+			property="username" />
+		<result column="passWord" jdbcType="VARCHAR"
+			property="password" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		userID, nickName, userName, passWord, sex
+	</sql>
+	<select id="selectAllUser" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from mi_users
+		<if test="start != null and number != null">
+		limit #{start,jdbcType = INTEGER},#{number,jdbcType = INTEGER}
+		</if>
+	</select>
+	<select id="selectUser"
+		parameterType="com.time.demo.entity.User" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mi_users
+		where userName = #{username,jdbcType=VARCHAR}
+		<if test="password != null">
+			and passWord
+			= #{password,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<select id="selectTotalCount" resultType="INTEGER">
+		select
+		count(*)
+		from mi_users
+	</select>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mi_users
+		where userID = #{uid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from mi_users
+		where userID =
+		#{userid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.time.demo.entity.User">
+		insert into mi_users (userID,
+		nickName, userName,
+		passWord, sex)
+		values (#{userid,jdbcType=INTEGER},
+		#{nickname,jdbcType=VARCHAR},
+		#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.time.demo.entity.User">
+		insert into mi_users
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				userID,
+			</if>
+			<if test="nickname != null">
+				nickName,
+			</if>
+			<if test="username != null">
+				userName,
+			</if>
+			<if test="password != null">
+				passWord,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="nickname != null">
+				#{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.time.demo.entity.User">
+		update mi_users
+		<set>
+			<if test="nickname != null">
+				nickName = #{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				userName = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				passWord = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where userID = #{userid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.time.demo.entity.User">
+		update mi_users
+		set nickName =
+		#{nickname,jdbcType=VARCHAR},
+		userName = #{username,jdbcType=VARCHAR},
+		passWord = #{password,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR}
+		where userID =
+		#{userid,jdbcType=INTEGER}
+	</update>
+</mapper>

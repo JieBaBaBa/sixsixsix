@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.time.demo.mapper.LikeMapper">
+	<resultMap id="BaseResultMap"
+		type="com.time.demo.entity.Like">
+		<id column="LikeId" jdbcType="INTEGER" property="likeid" />
+		<result column="Owner" jdbcType="VARCHAR" property="owner" />
+		<result column="Product" jdbcType="VARCHAR" property="product" />
+		<result column="Model" jdbcType="VARCHAR" property="model" />
+		<result column="Color" jdbcType="VARCHAR" property="color" />
+		<result column="Price" jdbcType="DOUBLE" property="price" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		LikeId, Owner, Product, Model, Color, Price
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mi_like
+		where LikeId = #{likeid,jdbcType=INTEGER}
+	</select>
+	<select id="selectByUserName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mi_like
+		where Owner = #{username,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from mi_like
+		where LikeId =
+		#{likeid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.time.demo.entity.Like">
+		insert into mi_like (LikeId,
+		Owner, Product,
+		Model, Color, Price)
+		values (#{likeid,jdbcType=INTEGER},
+		#{owner,jdbcType=VARCHAR},
+		#{product,jdbcType=VARCHAR},
+		#{model,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR},
+		#{price,jdbcType=DOUBLE})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.time.demo.entity.Like">
+		insert into mi_like
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="likeid != null">
+				LikeId,
+			</if>
+			<if test="owner != null">
+				Owner,
+			</if>
+			<if test="product != null">
+				Product,
+			</if>
+			<if test="model != null">
+				Model,
+			</if>
+			<if test="color != null">
+				Color,
+			</if>
+			<if test="price != null">
+				Price,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="likeid != null">
+				#{likeid,jdbcType=INTEGER},
+			</if>
+			<if test="owner != null">
+				#{owner,jdbcType=VARCHAR},
+			</if>
+			<if test="product != null">
+				#{product,jdbcType=VARCHAR},
+			</if>
+			<if test="model != null">
+				#{model,jdbcType=VARCHAR},
+			</if>
+			<if test="color != null">
+				#{color,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DOUBLE},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.time.demo.entity.Like">
+		update mi_like
+		<set>
+			<if test="owner != null">
+				Owner = #{owner,jdbcType=VARCHAR},
+			</if>
+			<if test="product != null">
+				Product = #{product,jdbcType=VARCHAR},
+			</if>
+			<if test="model != null">
+				Model = #{model,jdbcType=VARCHAR},
+			</if>
+			<if test="color != null">
+				Color = #{color,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				Price = #{price,jdbcType=DOUBLE},
+			</if>
+		</set>
+		where LikeId = #{likeid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.time.demo.entity.Like">
+		update mi_like
+		set Owner = #{owner,jdbcType=VARCHAR},
+		Product = #{product,jdbcType=VARCHAR},
+		Model =
+		#{model,jdbcType=VARCHAR},
+		Color = #{color,jdbcType=VARCHAR},
+		Price =
+		#{price,jdbcType=DOUBLE}
+		where LikeId = #{likeid,jdbcType=INTEGER}
+	</update>
+</mapper>

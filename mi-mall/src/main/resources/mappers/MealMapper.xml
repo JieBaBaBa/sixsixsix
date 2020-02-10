@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.time.demo.mapper.MealMapper">
+	<resultMap id="BaseResultMap"
+		type="com.time.demo.entity.Meal">
+		<id column="Mealid" jdbcType="INTEGER" property="mealid" />
+		<result column="productid" jdbcType="INTEGER"
+			property="productid" />
+		<result column="meal" jdbcType="VARCHAR" property="meal" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		Mealid, productid, meal
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mi_product_meal
+		where Mealid = #{mealid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from mi_product_meal
+		where Mealid = #{mealid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.time.demo.entity.Meal">
+		insert into mi_product_meal (Mealid, productid, meal
+		)
+		values (#{mealid,jdbcType=INTEGER}, #{productid,jdbcType=INTEGER},
+		#{meal,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.time.demo.entity.Meal">
+		insert into mi_product_meal
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mealid != null">
+				Mealid,
+			</if>
+			<if test="productid != null">
+				productid,
+			</if>
+			<if test="meal != null">
+				meal,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mealid != null">
+				#{mealid,jdbcType=INTEGER},
+			</if>
+			<if test="productid != null">
+				#{productid,jdbcType=INTEGER},
+			</if>
+			<if test="meal != null">
+				#{meal,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	
+	<insert id="insertMealList" parameterType="java.util.ArrayList">
+		insert into mi_product_meal (productid,meal)
+		values
+		<foreach collection="list" item="meal"
+			separator=",">
+			(#{meal.productid,jdbcType=INTEGER},
+			#{meal.meal,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	<update id="updateMealList" parameterType="java.util.ArrayList">
+		update mi_product_meal
+		<foreach collection="list" item="meal" separator=",">
+			<set>
+				<if test="meal != null">
+					meal = #{meal.meal,jdbcType=VARCHAR},
+				</if>
+			</set>
+		</foreach>
+		where productid = #{productid,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteMealList"
+		parameterType="java.lang.Integer">
+		delete from mi_product_meal
+		where productid =
+		#{productid,jdbcType=INTEGER}
+	</delete>
+	
+	
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.time.demo.entity.Meal">
+		update mi_product_meal
+		<set>
+			<if test="productid != null">
+				productid = #{productid,jdbcType=INTEGER},
+			</if>
+			<if test="meal != null">
+				meal = #{meal,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where Mealid = #{mealid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.time.demo.entity.Meal">
+		update mi_product_meal
+		set productid = #{productid,jdbcType=INTEGER},
+		meal = #{meal,jdbcType=VARCHAR}
+		where Mealid = #{mealid,jdbcType=INTEGER}
+	</update>
+</mapper>

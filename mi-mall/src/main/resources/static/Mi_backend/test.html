@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<head>
+<meta charset="utf-8">
+<title>文件上传和下载</title>
+<script>
+	window.onload=function(){
+		//步骤一:创建异步对象
+		var ajax = new XMLHttpRequest();
+		//步骤二:设置请求的url参数,参数一是请求的类型,参数二是请求的url,可以带参数,动态的传递参数starName到服务端
+		ajax.open('get','http://localhost:8080/selectPicture');
+		//步骤三:发送请求
+		ajax.send();
+		//步骤四:注册事件 onreadystatechange 状态改变就会调用
+		ajax.onreadystatechange = function () {
+		   if (ajax.readyState==4 &&ajax.status==200) {
+		    //步骤五 如果能够进到这个判断 说明 数据 完美的回来了,并且请求的页面是存在的
+		　　　　console.log(ajax.responseText);//输入相应的内容
+		  　　}
+		}
+	}
+		
+</script>
+</head>
+<body>
+	<form action='http://localhost:8080/product/insertProduct' method='post'
+		enctype='multipart/form-data'>
+		<input type='file' name='file1'>
+		<input type='file' name='file2'>
+		<input type='file' name='file3'>
+		<button type='submit'>上传</button>
+	</form>
+	<img src="..\picture\e88b6e66-8f61-4b25-8d64-c2c52ca11d90aaa.jpg">
+
+</body>
+
+</html>

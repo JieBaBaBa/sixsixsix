@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.time.demo.mapper.ConfMapper">
+	<resultMap id="BaseResultMap"
+		type="com.time.demo.entity.Conf">
+		<id column="Confid" jdbcType="INTEGER" property="confid" />
+		<result column="productid" jdbcType="INTEGER"
+			property="productid" />
+		<result column="conf" jdbcType="VARCHAR" property="conf" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		Confid, productid, conf
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mi_product_conf
+		where Confid = #{confid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from mi_product_conf
+		where Confid =
+		#{confid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.time.demo.entity.Conf">
+		insert into mi_product_conf
+		(Confid, productid, conf
+		)
+		values (#{confid,jdbcType=INTEGER},
+		#{productid,jdbcType=INTEGER},
+		#{conf,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.time.demo.entity.Conf">
+		insert into mi_product_conf
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="confid != null">
+				Confid,
+			</if>
+			<if test="productid != null">
+				productid,
+			</if>
+			<if test="conf != null">
+				conf,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="confid != null">
+				#{confid,jdbcType=INTEGER},
+			</if>
+			<if test="productid != null">
+				#{productid,jdbcType=INTEGER},
+			</if>
+			<if test="conf != null">
+				#{conf,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+	<insert id="insertConfList" parameterType="java.util.ArrayList">
+		insert into mi_product_conf (productid,conf)
+		values
+		<foreach collection="list" item="conf" separator=",">
+			(#{conf.productid,jdbcType=INTEGER},
+			#{conf.conf,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	<update id="updateConfList" parameterType="java.util.ArrayList">
+		update mi_product_conf
+		<foreach collection="list" item="conf" separator=",">
+			<set>
+				<if test="conf != null">
+					conf = #{conf.conf,jdbcType=VARCHAR},
+				</if>
+			</set>
+		</foreach>
+		where productid = #{productid,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteConfList"
+		parameterType="java.lang.Integer">
+		delete from mi_product_conf
+		where productid =
+		#{productid,jdbcType=INTEGER}
+	</delete>
+
+
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.time.demo.entity.Conf">
+		update mi_product_conf
+		<set>
+			<if test="productid != null">
+				productid = #{productid,jdbcType=INTEGER},
+			</if>
+			<if test="conf != null">
+				conf = #{conf,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where Confid = #{confid,jdbcType=INTEGER}
+	</update>
+</mapper>

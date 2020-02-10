@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.time.demo.mapper.OrderProductMapper">
+	<resultMap id="BaseResultMap"
+		type="com.time.demo.entity.OrderProduct">
+		<id column="OrderProductid" jdbcType="INTEGER"
+			property="orderproductid" />
+		<result column="Orderid" jdbcType="INTEGER" property="orderid" />
+		<result column="ProductPicture" jdbcType="VARCHAR"
+			property="productpicture" />
+		<result column="ProductName" jdbcType="VARCHAR"
+			property="productname" />
+		<result column="ProductColor" jdbcType="VARCHAR"
+			property="productcolor" />
+		<result column="ProductMount" jdbcType="DOUBLE"
+			property="productmount" />
+		<result column="ProductNumber" jdbcType="BIGINT"
+			property="productnumber" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		OrderProductid, Orderid, ProductPicture, ProductName,
+		ProductColor, ProductMount,
+		ProductNumber
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mi_order_product
+		where OrderProductid =
+		#{orderproductid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from mi_order_product
+		where OrderProductid =
+		#{orderproductid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.time.demo.entity.OrderProduct">
+		insert into mi_order_product (OrderProductid, Orderid,
+		ProductPicture,
+		ProductName, ProductColor, ProductMount,
+		ProductNumber)
+		values (#{orderproductid,jdbcType=INTEGER},
+		#{orderid,jdbcType=INTEGER},
+		#{productpicture,jdbcType=VARCHAR},
+		#{productname,jdbcType=VARCHAR}, #{productcolor,jdbcType=VARCHAR},
+		#{productmount,jdbcType=DOUBLE},
+		#{productnumber,jdbcType=BIGINT})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.time.demo.entity.OrderProduct">
+		insert into mi_order_product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderproductid != null">
+				OrderProductid,
+			</if>
+			<if test="orderid != null">
+				Orderid,
+			</if>
+			<if test="productpicture != null">
+				ProductPicture,
+			</if>
+			<if test="productname != null">
+				ProductName,
+			</if>
+			<if test="productcolor != null">
+				ProductColor,
+			</if>
+			<if test="productmount != null">
+				ProductMount,
+			</if>
+			<if test="productnumber != null">
+				ProductNumber,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderproductid != null">
+				#{orderproductid,jdbcType=INTEGER},
+			</if>
+			<if test="orderid != null">
+				#{orderid,jdbcType=INTEGER},
+			</if>
+			<if test="productpicture != null">
+				#{productpicture,jdbcType=VARCHAR},
+			</if>
+			<if test="productname != null">
+				#{productname,jdbcType=VARCHAR},
+			</if>
+			<if test="productcolor != null">
+				#{productcolor,jdbcType=VARCHAR},
+			</if>
+			<if test="productmount != null">
+				#{productmount,jdbcType=DOUBLE},
+			</if>
+			<if test="productnumber != null">
+				#{productnumber,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<insert id="insertProductList" parameterType="java.util.ArrayList">
+		insert into mi_order_product (Orderid,
+		ProductPicture,
+		ProductName, ProductColor, ProductMount,
+		ProductNumber)
+		values
+		<foreach collection="list" item="orderproduct"
+			separator=",">
+			(#{orderproduct.Orderid,jdbcType=INTEGER},
+			#{orderproduct.ProductPicture,jdbcType=VARCHAR},
+			#{orderproduct.ProductName,jdbcType=VARCHAR},
+			#{orderproduct.ProductColor,jdbcType=VARCHAR},
+			#{orderproduct.ProductMount,jdbcType=DOUBLE},
+			#{orderproduct.ProductNumber,jdbcType=BIGINT})
+		</foreach>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.time.demo.entity.OrderProduct">
+		update mi_order_product
+		<set>
+			<if test="orderid != null">
+				Orderid = #{orderid,jdbcType=INTEGER},
+			</if>
+			<if test="productpicture != null">
+				ProductPicture = #{productpicture,jdbcType=VARCHAR},
+			</if>
+			<if test="productname != null">
+				ProductName = #{productname,jdbcType=VARCHAR},
+			</if>
+			<if test="productcolor != null">
+				ProductColor = #{productcolor,jdbcType=VARCHAR},
+			</if>
+			<if test="productmount != null">
+				ProductMount = #{productmount,jdbcType=DOUBLE},
+			</if>
+			<if test="productnumber != null">
+				ProductNumber = #{productnumber,jdbcType=BIGINT},
+			</if>
+		</set>
+		where OrderProductid = #{orderproductid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.time.demo.entity.OrderProduct">
+		update mi_order_product
+		set Orderid =
+		#{orderid,jdbcType=INTEGER},
+		ProductPicture =
+		#{productpicture,jdbcType=VARCHAR},
+		ProductName =
+		#{productname,jdbcType=VARCHAR},
+		ProductColor =
+		#{productcolor,jdbcType=VARCHAR},
+		ProductMount =
+		#{productmount,jdbcType=DOUBLE},
+		ProductNumber =
+		#{productnumber,jdbcType=BIGINT}
+		where OrderProductid =
+		#{orderproductid,jdbcType=INTEGER}
+	</update>
+</mapper>
